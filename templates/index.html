@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cloud Server Health Monitoring</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Cloud Infrastructure</p>
+          <h1>Server Health Monitoring</h1>
+        </div>
+        <div class="status-pill">Local Cloud Simulation</div>
+      </header>
+
+      <main>
+        <section id="dashboardStats" class="stats-grid"></section>
+
+        <section class="two-column layout-gap">
+          <div class="panel">
+            <div class="section-header">
+              <h2>Infrastructure Overview</h2>
+            </div>
+            <div id="overviewMetrics" class="overview-grid"></div>
+          </div>
+
+          <div class="panel">
+            <div class="section-header">
+              <h2>Threshold Configuration</h2>
+            </div>
+            <form id="thresholdForm" class="threshold-form">
+              <div id="thresholdFields"></div>
+              <button type="submit" class="primary-btn">Update Thresholds</button>
+            </form>
+          </div>
+        </section>
+
+        <section class="panel controls-panel">
+          <div class="controls-grid">
+            <div class="search-box">
+              <label for="serverSearch">Search</label>
+              <input id="serverSearch" type="text" placeholder="Search servers by name, ID, region, or IP" />
+            </div>
+            <div class="filter-box">
+              <label for="statusFilter">Filter</label>
+              <select id="statusFilter">
+                <option value="All">All</option>
+                <option value="ONLINE">Online</option>
+                <option value="WARNING">Warning</option>
+                <option value="CRITICAL">Critical</option>
+                <option value="OFFLINE">Offline</option>
+              </select>
+            </div>
+            <div class="refresh-box">
+              <label>&nbsp;</label>
+              <button id="refreshBtn" class="secondary-btn" type="button">Refresh</button>
+            </div>
+          </div>
+
+          <div class="add-server-row">
+            <form id="addServerForm" class="inline-form">
+              <input type="text" id="serverName" placeholder="Server name" required />
+              <input type="text" id="serverRegion" placeholder="Region" required />
+              <input type="text" id="serverOS" placeholder="Operating system" required />
+              <input type="text" id="serverIp" placeholder="IP address" required />
+              <button type="submit" class="primary-btn">Add Simulated Server</button>
+            </form>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-header">
+            <h2>Server Cards</h2>
+          </div>
+          <div id="serverCards" class="server-card-grid"></div>
+        </section>
+
+        <section class="panel">
+          <div class="section-header">
+            <h2>Resource Graphs</h2>
+          </div>
+          <div class="chart-controls">
+            <label for="historyServerSelect">Server</label>
+            <select id="historyServerSelect"></select>
+          </div>
+          <div class="charts-grid">
+            <div class="chart-box"><canvas id="cpuChart"></canvas></div>
+            <div class="chart-box"><canvas id="memoryChart"></canvas></div>
+            <div class="chart-box"><canvas id="diskChart"></canvas></div>
+            <div class="chart-box"><canvas id="networkChart"></canvas></div>
+            <div class="chart-box chart-wide"><canvas id="healthChart"></canvas></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-header">
+            <h2>Server Health Table</h2>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Server</th>
+                  <th>Region</th>
+                  <th data-sort="status">Status</th>
+                  <th data-sort="cpu_usage">CPU</th>
+                  <th data-sort="memory_usage">Memory</th>
+                  <th data-sort="disk_usage">Disk</th>
+                  <th data-sort="network_usage">Network</th>
+                  <th data-sort="health_score">Health</th>
+                  <th>Last Checked</th>
+                </tr>
+              </thead>
+              <tbody id="healthTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-header">
+            <h2>Alerts</h2>
+          </div>
+          <div id="alertSummary" class="alert-summary"></div>
+          <div id="alertList" class="alert-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>
